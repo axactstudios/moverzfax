@@ -1,5 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/models/persistent-bottom-nav-bar-styles.widget.dart';
+import 'package:persistent_bottom_nav_bar/models/persistent-nav-bar-scaffold.widget.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.widget.dart';
 import 'package:splashscreen/splashscreen.dart';
+
+import 'NavBar/navBarItems.dart';
+import 'NavBarPages/find.dart';
+import 'NavBarPages/home.dart';
+import 'NavBarPages/job.dart';
+import 'NavBarPages/order.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(),
+      home: Home(),
     );
   }
 }
@@ -45,20 +54,29 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  PersistentTabController _controller =
+      PersistentTabController(initialIndex: 0);
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-          ],
-        ),
-      ),
+    return PersistentTabView(
+      controller: _controller,
+      items: navBarItems,
+      screens: _buildScreens(),
+      showElevation: true,
+      navBarCurve: NavBarCurve.upperCorners,
+      confineInSafeArea: true,
+      handleAndroidBackButtonPress: true,
+      iconSize: 26.0,
+      navBarStyle:
+          NavBarStyle.style9, // Choose the nav bar style with this property
+      onItemSelected: (index) {
+        print(index);
+      },
     );
+  }
+
+  List<Widget> _buildScreens() {
+    return [HomePage(), FindPage(), OrderPage(), JobPage()];
   }
 }
