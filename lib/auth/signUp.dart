@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:moverzfax/auth/signIn.dart';
 
 import '../main.dart';
@@ -10,6 +11,18 @@ import '../main.dart';
 class SignUp extends StatefulWidget {
   @override
   _SignUpState createState() => _SignUpState();
+}
+
+void showToast(message, Color color) {
+  Fluttertoast.showToast(
+    msg: message,
+    toastLength: Toast.LENGTH_LONG,
+    gravity: ToastGravity.BOTTOM,
+    timeInSecForIosWeb: 2,
+    backgroundColor: color,
+    textColor: Color(0xFF345995),
+    fontSize: 16.0,
+  );
 }
 
 class _SignUpState extends State<SignUp> {
@@ -259,16 +272,16 @@ class _SignUpState extends State<SignUp> {
       'password2': password2
     };
 
-    await apiRequest(url, map).then((authResult) => Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) {
-          return new MaterialApp(
-            theme: ThemeData(
-              scaffoldBackgroundColor: Colors.white,
-              primaryColor: Colors.white,
-            ),
-            home: SignIn(),
-          );
-        })));
+    await apiRequest(url, map).then((authResult) => print(authResult));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+      return new MaterialApp(
+        theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white,
+          primaryColor: Colors.white,
+        ),
+        home: SignIn(),
+      );
+    }));
   }
 
   Future<String> apiRequest(String url, Map jsonMap) async {
@@ -277,13 +290,15 @@ class _SignUpState extends State<SignUp> {
     HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
     request.headers.set('content-type', 'application/json');
     request.add(utf8.encode(json.encode(jsonMap)));
-//    HttpClientResponse response = await request.close();
-////
-////    // todo - you should check the response.statusCode
-////    String reply = await response.transform(utf8.decoder).join();
-////    httpClient.close();
-////    print(reply);
-////    return reply;
-    return 'done';
+    HttpClientResponse response =
+        await request.close().timeout(Duration(seconds: 10));
+
+    // todo - you should check the response.statusCode
+    String reply = await response.transform(utf8.decoder).join();
+    httpClient.close();
+
+    print(reply);
+    showToast(reply, Colors.white);
+    return reply;
   }
 }

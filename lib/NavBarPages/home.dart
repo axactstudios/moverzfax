@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:getflutter/getflutter.dart';
 import 'package:moverzfax/navDrawer.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
 class HomePage extends StatefulWidget {
   @override
@@ -54,40 +55,45 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  Container(
-                    height: 0.35 * width,
-                    width: 0.35 * width,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            spreadRadius: 3,
-                            blurRadius: 10,
+                  InkWell(
+                    onTap: () {
+                      UrlLauncher.launch("tel://21213123123");
+                    },
+                    child: Container(
+                      height: 0.35 * width,
+                      width: 0.35 * width,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              spreadRadius: 3,
+                              blurRadius: 10,
+                            )
+                          ],
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                          border:
+                              Border.all(color: Color(0xFF3871AD), width: 2.5)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Icon(
+                            Icons.phone,
+                            size: width * 0.2,
+                            color: Color(0xFF3871AD),
+                          ),
+                          Text(
+                            'Contact Us',
+                            style: TextStyle(
+                                color: Color(0xFF3871AD),
+                                fontFamily: 'nunito',
+                                fontWeight: FontWeight.bold,
+                                fontSize: width * 0.05),
                           )
                         ],
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                        border:
-                            Border.all(color: Color(0xFF3871AD), width: 2.5)),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Icon(
-                          Icons.phone,
-                          size: width * 0.2,
-                          color: Color(0xFF3871AD),
-                        ),
-                        Text(
-                          'Contact Us',
-                          style: TextStyle(
-                              color: Color(0xFF3871AD),
-                              fontFamily: 'nunito',
-                              fontWeight: FontWeight.bold,
-                              fontSize: width * 0.05),
-                        )
-                      ],
+                      ),
                     ),
                   ),
                   Container(
