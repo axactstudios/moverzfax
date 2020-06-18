@@ -273,15 +273,6 @@ class _SignUpState extends State<SignUp> {
     };
 
     await apiRequest(url, map).then((authResult) => print(authResult));
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-      return new MaterialApp(
-        theme: ThemeData(
-          scaffoldBackgroundColor: Colors.white,
-          primaryColor: Colors.white,
-        ),
-        home: SignIn(),
-      );
-    }));
   }
 
   Future<String> apiRequest(String url, Map jsonMap) async {
@@ -298,7 +289,19 @@ class _SignUpState extends State<SignUp> {
     httpClient.close();
 
     print(reply);
-    showToast(reply, Colors.white);
+    showToast(reply, Colors.yellow);
+    if (reply == 'Sign Up Successful. You can login now.') {
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return new MaterialApp(
+          theme: ThemeData(
+            scaffoldBackgroundColor: Colors.white,
+            primaryColor: Colors.white,
+          ),
+          home: SignIn(),
+        );
+      }));
+    }
+
     return reply;
   }
 }

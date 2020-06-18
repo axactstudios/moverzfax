@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:moverzfax/auth/signUp.dart';
 
 import '../main.dart';
@@ -10,6 +11,18 @@ import '../main.dart';
 class SignIn extends StatefulWidget {
   @override
   _SignInState createState() => _SignInState();
+}
+
+void showToast(message, Color color) {
+  Fluttertoast.showToast(
+    msg: message,
+    toastLength: Toast.LENGTH_LONG,
+    gravity: ToastGravity.BOTTOM,
+    timeInSecForIosWeb: 2,
+    backgroundColor: color,
+    textColor: Color(0xFF345995),
+    fontSize: 16.0,
+  );
 }
 
 class _SignInState extends State<SignIn> {
@@ -190,16 +203,7 @@ class _SignInState extends State<SignIn> {
     print(email);
     Map map = {'email': email, 'password': password};
 
-    await apiRequest(url, map).then((authResult) => Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) {
-          return new MaterialApp(
-            theme: ThemeData(
-              scaffoldBackgroundColor: Colors.white,
-              primaryColor: Colors.white,
-            ),
-            home: Home(),
-          );
-        })));
+    await apiRequest(url, map);
   }
 
   Future<String> apiRequest(String url, Map jsonMap) async {
@@ -208,13 +212,29 @@ class _SignInState extends State<SignIn> {
     HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
     request.headers.set('content-type', 'application/json');
     request.add(utf8.encode(json.encode(jsonMap)));
-//    HttpClientResponse response = await request.close();
-//
-//    // todo - you should check the response.statusCode
-//    String reply = await response.transform(utf8.decoder).join();
-//    httpClient.close();
-//    print(reply);
-//    return reply;
-    return 'done';
+    HttpClientResponse response =
+        await request.close().timeout(Duration(seconds: 10));
+
+    // todo - you should check the response.statusCode
+    String reply = await response.transform(utf8.decoder).join();
+    httpClient.close();
+
+    print(reply);
+    showToast(reply, Colors.yellow);
+    if (reply == 'Something went wrong.') {
+      return null;
+    } else if (reply == 'Signed in!!') {
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return new MaterialApp(
+          theme: ThemeData(
+            scaffoldBackgroundColor: Colors.white,
+            primaryColor: Colors.white,
+          ),
+          home: Home(),
+        );
+      }));
+    }
+
+    return reply;
   }
 }
