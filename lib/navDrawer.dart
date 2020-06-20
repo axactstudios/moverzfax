@@ -133,6 +133,24 @@ Widget retNavDrawer() {
           height: 0.5,
           color: Colors.black26,
         ),
+        ListTile(
+          title: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+            child: Text(
+              'Log Out',
+              style: TextStyle(
+                  fontSize: 24,
+                  fontFamily: 'nunito',
+                  fontWeight: FontWeight.w600),
+            ),
+          ),
+          onTap: null,
+        ),
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 20),
+          height: 0.5,
+          color: Colors.black26,
+        ),
       ],
     ),
   );
