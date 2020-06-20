@@ -23,12 +23,16 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  http: ^0.12.1
   splashscreen: ^1.2.0
   persistent_bottom_nav_bar: ^1.5.5
   font_awesome_flutter: ^8.8.1
   getflutter: ^1.0.11
   url_launcher: ^5.4.11
   fluttertoast: ^4.0.1
+  flappy_search_bar: ^1.7.2
+  floating_search_bar: ^0.3.0
+
 
 
   # The following adds the Cupertino Icons font to your application.
