@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:getflutter/getflutter.dart';
+import 'package:moverzfax/OtherPages/searchByNumber.dart';
 import 'package:moverzfax/navDrawer.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
@@ -27,24 +28,33 @@ class _HomePageState extends State<HomePage> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.fromLTRB(25, 30, 25, 10),
-              child: Container(
-                alignment: Alignment.centerLeft,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Color(0xFF3871AD), width: 2),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SearchByNumber()),
+                  );
+                },
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(color: Color(0xFF3871AD), width: 2),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    ),
                   ),
-                ),
-                height: 60,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 15.0),
-                  child: Text(
-                    'Enter Name / USDOT# / MC#',
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontFamily: 'nunito',
-                        color: Colors.black54),
+                  height: 60,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Text(
+                      'Enter USDOT# / MC#',
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontFamily: 'nunito',
+                          color: Colors.black54),
+                    ),
                   ),
                 ),
               ),

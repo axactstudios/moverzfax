@@ -1,4 +1,9 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:getflutter/components/appbar/gf_appbar.dart';
+import 'package:moverzfax/OtherPages/searchByNumber.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.widget.dart';
 
 class FindPage extends StatefulWidget {
   @override
@@ -15,9 +20,18 @@ class _FindPageState extends State<FindPage> {
   String dropdownValue1 = 'New Mexico';
   String dropdownValue2 = 'Los Santos';
   final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: GFAppBar(
+        backgroundColor: Color(0xFF3871AD),
+        title: Text(
+          "MoverZfax",
+          style: TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 24, fontFamily: 'nunito'),
+        ),
+      ),
       body: SafeArea(
         child: ListView(
           shrinkWrap: true,
