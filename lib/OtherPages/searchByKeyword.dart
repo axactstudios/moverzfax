@@ -5,8 +5,9 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:moverzfax/Classes/mover.dart';
+import 'package:moverzfax/OtherPages/moversListScreen.dart';
 
-class SearchByNumber extends StatelessWidget {
+class SearchByKeyword extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class _SearchState extends State<Search> {
   void initState() {
     fetchData();
     duplicateItems =
-        List<String>.generate(data.length, (i) => data[i].moverUSDOTNo);
+        List<String>.generate(data.length, (i) => data[i].moverName);
     items.addAll(duplicateItems);
     super.initState();
   }
@@ -84,7 +85,7 @@ class _SearchState extends State<Search> {
     }
     List<String> temp = new List();
     for (int i = 0; i < data.length; i++) {
-      temp.add(data[i].moverUSDOTNo);
+      temp.add(data[i].moverName);
     }
     duplicateItems = temp;
   }
@@ -99,7 +100,10 @@ class _SearchState extends State<Search> {
         title: Text(
           "MoverZfax",
           style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 24, fontFamily: 'nunito'),
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+            fontFamily: 'nunito',
+          ),
         ),
       ),
       body: Container(
@@ -126,8 +130,24 @@ class _SearchState extends State<Search> {
                 itemCount: items.length,
                 itemBuilder: (context, index) {
                   print(items.length.toString());
-                  return ListTile(
-                    title: Text(items[index]),
+                  return InkWell(
+                    onTap: () {
+                      List<Mover> temp = new List();
+                      for (int i = 0; i < data.length; i++) {
+                        if (data[i].moverName == items[index]) {
+                          temp.add(data[i]);
+                        }
+                      }
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                MoversListScreen(temp, "keywordSearchScreen")),
+                      );
+                    },
+                    child: ListTile(
+                      title: Text(items[index]),
+                    ),
                   );
                 },
               ),
