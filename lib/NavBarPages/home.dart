@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:getflutter/getflutter.dart';
-import 'package:moverzfax/OtherPages/searchByNumber.dart';
+import 'package:moverzfax/OtherPages/searchByKeyword.dart';
 import 'package:moverzfax/navDrawer.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => SearchByNumber()),
+                    MaterialPageRoute(builder: (context) => SearchByKeyword()),
                   );
                 },
                 child: Container(

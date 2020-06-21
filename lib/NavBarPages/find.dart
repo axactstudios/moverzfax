@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:getflutter/components/appbar/gf_appbar.dart';
-import 'package:moverzfax/OtherPages/searchByNumber.dart';
+import 'package:moverzfax/Classes/mover.dart';
+import 'package:moverzfax/OtherPages/moversListScreen.dart';
+import 'package:moverzfax/OtherPages/searchByKeyword.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.widget.dart';
 
 class FindPage extends StatefulWidget {
@@ -11,7 +14,7 @@ class FindPage extends StatefulWidget {
 }
 
 class _FindPageState extends State<FindPage> {
-  String zipcode, keyword;
+  String zipcode, USDOTNo, MCNo;
   bool saveAttempt = false;
   final listOfCountries = ["USA", "Canada", "Russia"];
   final listOfStates = ["New Mexico", "Colorado", "California"];
@@ -20,6 +23,82 @@ class _FindPageState extends State<FindPage> {
   String dropdownValue1 = 'New Mexico';
   String dropdownValue2 = 'Los Santos';
   final formKey = GlobalKey<FormState>();
+
+  String serverResponse = 'Server response';
+
+  bool isLoaded = false;
+  List<Mover> data;
+
+  fetchData(String apiRoute) async {
+    Map map;
+    if (USDOTNo.isNotEmpty && MCNo.isNotEmpty) {
+      map = {
+        "moverMCNo": MCNo,
+        "moverUSDOTNo": USDOTNo,
+        "moverCountry": dropdownValue,
+        "moverState": dropdownValue1,
+        "moverCity": dropdownValue2,
+        "moverZipCode": zipcode
+      };
+    } else if (USDOTNo.isNotEmpty) {
+      map = {
+        "moverUSDOTNo": USDOTNo,
+        "moverCountry": dropdownValue,
+        "moverState": dropdownValue1,
+        "moverCity": dropdownValue2,
+        "moverZipCode": zipcode
+      };
+    } else if (MCNo.isNotEmpty) {
+      map = {
+        "moverMCNo": MCNo,
+        "moverCountry": dropdownValue,
+        "moverState": dropdownValue1,
+        "moverCity": dropdownValue2,
+        "moverZipCode": zipcode
+      };
+    } else {
+      map = {
+        "moverCountry": dropdownValue,
+        "moverState": dropdownValue1,
+        "moverCity": dropdownValue2,
+        "moverZipCode": zipcode
+      };
+    }
+
+    String url = 'http://localhost:27017/movers/$apiRoute';
+    var response = await apiRequest(url, map);
+    var Str = response;
+    setState(() {
+      data = parseMovers(response);
+      isLoaded = true;
+    });
+
+    print('Documents retrieved');
+    print(data.length);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => MoversListScreen(data, "findScreen")),
+    );
+  }
+
+  List<Mover> parseMovers(String responseBody) {
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+
+    return parsed.map<Mover>((json) => Mover.fromJson(json)).toList();
+  }
+
+  Future<String> apiRequest(String url, Map jsonMap) async {
+    HttpClient httpClient = new HttpClient();
+    HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
+    request.headers.set('content-type', 'application/json');
+    request.add(utf8.encode(json.encode(jsonMap)));
+    HttpClientResponse response = await request.close();
+    // todo - you should check the response.statusCode
+    String reply = await response.transform(utf8.decoder).join();
+    httpClient.close();
+    return reply;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,13 +134,9 @@ class _FindPageState extends State<FindPage> {
                     TextFormField(
                       onChanged: (textValue) {
                         setState(() {
-                          keyword = textValue;
+                          MCNo = textValue;
                         });
                       },
-                      autovalidate: saveAttempt,
-                      validator: (nameValue) => nameValue.isEmpty
-                          ? 'This field cannot be blank'
-                          : null,
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -74,7 +149,35 @@ class _FindPageState extends State<FindPage> {
                             color: Color(0xFF3871AD),
                           ),
                         ),
-                        hintText: 'Search keyword',
+                        hintText: 'Enter MC#',
+                        hintStyle: TextStyle(
+                          color: Colors.black.withOpacity(0.3),
+                        ),
+                      ),
+                      style: TextStyle(color: Colors.black, fontSize: 16.0),
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    TextFormField(
+                      onChanged: (textValue) {
+                        setState(() {
+                          USDOTNo = textValue;
+                        });
+                      },
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xFF3871AD),
+                          ),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Color(0xFF3871AD),
+                          ),
+                        ),
+                        hintText: 'Enter USDOT',
                         hintStyle: TextStyle(
                           color: Colors.black.withOpacity(0.3),
                         ),
@@ -217,6 +320,16 @@ class _FindPageState extends State<FindPage> {
                     ),
                     InkWell(
                       onTap: () {
+                        data.clear();
+                        if (USDOTNo.isNotEmpty && MCNo.isNotEmpty) {
+                          fetchData("detailedSearchWithBothNo");
+                        } else if (USDOTNo.isNotEmpty) {
+                          fetchData("detailedSearchWithoutMC");
+                        } else if (MCNo.isNotEmpty) {
+                          fetchData("detailedSearchWithoutUSDOT");
+                        } else {
+                          fetchData("detailedSearch");
+                        }
                         setState(() {
                           saveAttempt = true;
                         });
