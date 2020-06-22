@@ -1,12 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:http/http.dart' as http;
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:getflutter/components/appbar/gf_appbar.dart';
 import 'package:moverzfax/Classes/mover.dart';
 import 'package:moverzfax/OtherPages/moversListScreen.dart';
-import 'package:moverzfax/OtherPages/searchByKeyword.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.widget.dart';
 
 class FindPage extends StatefulWidget {
   @override
@@ -14,7 +12,7 @@ class FindPage extends StatefulWidget {
 }
 
 class _FindPageState extends State<FindPage> {
-  String zipcode, USDOTNo, MCNo;
+  String zipcode = "", USDOTNo = "", MCNo = "";
   bool saveAttempt = false;
   final listOfCountries = ["USA", "Canada", "Russia"];
   final listOfStates = ["New Mexico", "Colorado", "California"];
@@ -27,7 +25,7 @@ class _FindPageState extends State<FindPage> {
   String serverResponse = 'Server response';
 
   bool isLoaded = false;
-  List<Mover> data;
+  List<Mover> data = new List();
 
   fetchData(String apiRoute) async {
     Map map;
@@ -66,8 +64,8 @@ class _FindPageState extends State<FindPage> {
     }
 
     String url = 'http://localhost:27017/movers/$apiRoute';
+    print(map);
     var response = await apiRequest(url, map);
-    var Str = response;
     setState(() {
       data = parseMovers(response);
       isLoaded = true;
@@ -320,21 +318,33 @@ class _FindPageState extends State<FindPage> {
                     ),
                     InkWell(
                       onTap: () {
-                        data.clear();
-                        if (USDOTNo.isNotEmpty && MCNo.isNotEmpty) {
-                          fetchData("detailedSearchWithBothNo");
-                        } else if (USDOTNo.isNotEmpty) {
-                          fetchData("detailedSearchWithoutMC");
-                        } else if (MCNo.isNotEmpty) {
-                          fetchData("detailedSearchWithoutUSDOT");
+                        if (zipcode.isEmpty) {
+                          Fluttertoast.showToast(
+                              msg: "Please Enter ZipCode",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Color(0xFF3871AD),
+                              textColor: Colors.white,
+                              fontSize: 16.0);
                         } else {
-                          fetchData("detailedSearch");
-                        }
-                        setState(() {
-                          saveAttempt = true;
-                        });
-                        if (formKey.currentState.validate()) {
-                          formKey.currentState.save();
+                          data = new List();
+                          data.clear();
+                          if (USDOTNo.isNotEmpty && MCNo.isNotEmpty) {
+                            fetchData("detailedSearchWithBothNo");
+                          } else if (USDOTNo.isNotEmpty) {
+                            fetchData("detailedSearchWithoutMC");
+                          } else if (MCNo.isNotEmpty) {
+                            fetchData("detailedSearchWithoutUSDOT");
+                          } else {
+                            fetchData("detailedSearch");
+                          }
+                          setState(() {
+                            saveAttempt = true;
+                          });
+                          if (formKey.currentState.validate()) {
+                            formKey.currentState.save();
+                          }
                         }
                       },
                       child: Container(
