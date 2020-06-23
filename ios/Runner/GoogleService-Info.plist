@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>848559732505-pvq83j82b8s33muqa2b3o98fkf53qfk5.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.848559732505-pvq83j82b8s33muqa2b3o98fkf53qfk5</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBZixCST6m4n3rLlld8ebQ18xwlxwswbW0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>848559732505</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.axactstudios.moverzfax</string>
+	<key>PROJECT_ID</key>
+	<string>moverzfax-52c80</string>
+	<key>STORAGE_BUCKET</key>
+	<string>moverzfax-52c80.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:848559732505:ios:7574ab68b27f220d8db788</string>
+	<key>DATABASE_URL</key>
+	<string>https://moverzfax-52c80.firebaseio.com</string>
+</dict>
+</plist>

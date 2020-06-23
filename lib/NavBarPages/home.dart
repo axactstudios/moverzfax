@@ -16,11 +16,15 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       drawer: retNavDrawer(),
       appBar: GFAppBar(
+        iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: Color(0xFF3871AD),
         title: Text(
           "MoverZfax",
           style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 24, fontFamily: 'nunito'),
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+              fontFamily: 'nunito'),
         ),
       ),
       body: SingleChildScrollView(

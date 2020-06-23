@@ -4,7 +4,6 @@ import 'package:persistent_bottom_nav_bar/models/persistent-bottom-nav-bar-style
 import 'package:persistent_bottom_nav_bar/models/persistent-nav-bar-scaffold.widget.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.widget.dart';
 import 'package:splashscreen/splashscreen.dart';
-
 import 'NavBar/navBarItems.dart';
 import 'NavBarPages/find.dart';
 import 'NavBarPages/home.dart';
@@ -44,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       loaderColor: Colors.transparent,
       photoSize: 200,
-      navigateAfterSeconds: Home(),
+      navigateAfterSeconds: null,
     );
   }
 }

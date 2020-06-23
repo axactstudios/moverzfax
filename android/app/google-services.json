@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "848559732505",
+    "firebase_url": "https://moverzfax-52c80.firebaseio.com",
+    "project_id": "moverzfax-52c80",
+    "storage_bucket": "moverzfax-52c80.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:848559732505:android:f9665265018153408db788",
+        "android_client_info": {
+          "package_name": "com.axactstudios.moverzfax"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "848559732505-l4tqj4flu9qguf6mkn95fb6mai4g27cb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjrXzxiu8fjp31s-2CTKgZDTd3SDwEFZ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "848559732505-l4tqj4flu9qguf6mkn95fb6mai4g27cb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "848559732505-pvq83j82b8s33muqa2b3o98fkf53qfk5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.axactstudios.moverzfax"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

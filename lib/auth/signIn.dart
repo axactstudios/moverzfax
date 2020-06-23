@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -26,9 +27,86 @@ void showToast(message, Color color) {
 }
 
 class _SignInState extends State<SignIn> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   String email, password;
   bool saveAttempt = false;
   final formKey = GlobalKey<FormState>();
+
+  void _signIn(String email, String pw) {
+    _auth
+        .signInWithEmailAndPassword(email: email, password: pw)
+        .then((authResult) {
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return new MaterialApp(
+          theme: ThemeData(
+            scaffoldBackgroundColor: Colors.white,
+            primaryColor: Colors.white,
+          ),
+          home: Home(),
+        );
+      }));
+    }).catchError(
+      (err) {
+        print(err);
+        if (err.code == 'ERROR_USER_NOT_FOUND') {
+          showCupertinoDialog(
+              context: context,
+              builder: (context) {
+                return CupertinoAlertDialog(
+                  title: Text(
+                      'This email is not yet registered. Create an account.'),
+                  actions: <Widget>[
+                    CupertinoDialogAction(
+                      child: Text('OK'),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    )
+                  ],
+                );
+              });
+        }
+        if (err.code == 'ERROR_WRONG_PASSWORD') {
+          showCupertinoDialog(
+            context: context,
+            builder: (context) {
+              return CupertinoAlertDialog(
+                title: Text(
+                    'Password is incorrect. Please enter correct password.'),
+                actions: <Widget>[
+                  CupertinoDialogAction(
+                    child: Text('OK'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  )
+                ],
+              );
+            },
+          );
+        }
+        if (err.code == 'ERROR_NETWORK_REQUEST_FAILED') {
+          showCupertinoDialog(
+            context: context,
+            builder: (context) {
+              return CupertinoAlertDialog(
+                title: Text(
+                    'Your internet connection is either not available or too slow.'),
+                actions: <Widget>[
+                  CupertinoDialogAction(
+                    child: Text('OK'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  )
+                ],
+              );
+            },
+          );
+        }
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +216,7 @@ class _SignInState extends State<SignIn> {
                       });
                       if (formKey.currentState.validate()) {
                         formKey.currentState.save();
-                        _addPost();
+                        _signIn(email, password);
                       }
                     },
                     child: Container(
@@ -196,45 +274,5 @@ class _SignInState extends State<SignIn> {
         ),
       ),
     );
-  }
-
-  _addPost() async {
-    String url = 'http://localhost:5000/login';
-    print(email);
-    Map map = {'email': email, 'password': password};
-
-    await apiRequest(url, map);
-  }
-
-  Future<String> apiRequest(String url, Map jsonMap) async {
-    HttpClient httpClient = new HttpClient();
-    // ignore: close_sinks
-    HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
-    request.headers.set('content-type', 'application/json');
-    request.add(utf8.encode(json.encode(jsonMap)));
-    HttpClientResponse response =
-        await request.close().timeout(Duration(seconds: 10));
-
-    // todo - you should check the response.statusCode
-    String reply = await response.transform(utf8.decoder).join();
-    httpClient.close();
-
-    print(reply);
-    showToast(reply, Colors.yellow);
-    if (reply == 'Something went wrong.') {
-      return null;
-    } else if (reply == 'Signed in!!') {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return new MaterialApp(
-          theme: ThemeData(
-            scaffoldBackgroundColor: Colors.white,
-            primaryColor: Colors.white,
-          ),
-          home: Home(),
-        );
-      }));
-    }
-
-    return reply;
   }
 }

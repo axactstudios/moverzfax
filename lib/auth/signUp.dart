@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -26,9 +27,46 @@ void showToast(message, Color color) {
 }
 
 class _SignUpState extends State<SignUp> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   String email, password, password2, name;
   bool saveAttempt = false;
   final formKey = GlobalKey<FormState>();
+
+  void _createUser(String email, String pw) {
+    _auth
+        .createUserWithEmailAndPassword(email: email, password: pw)
+        .then((authResult) {
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return new MaterialApp(
+          theme: ThemeData(
+            scaffoldBackgroundColor: Colors.white,
+            primaryColor: Colors.white,
+          ),
+          home: Home(),
+        );
+      }));
+    }).catchError((err) {
+      print(err);
+      if (err.code == 'ERROR_EMAIL_ALREADY_IN_USE') {
+        showCupertinoDialog(
+          context: context,
+          builder: (context) {
+            return CupertinoAlertDialog(
+              title: Text('This email is already in use'),
+              actions: <Widget>[
+                CupertinoDialogAction(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                )
+              ],
+            );
+          },
+        );
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -201,7 +239,7 @@ class _SignUpState extends State<SignUp> {
                       });
                       if (formKey.currentState.validate()) {
                         formKey.currentState.save();
-                        _addPost();
+                        _createUser(email, password);
                       }
                     },
                     child: Container(
@@ -260,48 +298,5 @@ class _SignUpState extends State<SignUp> {
         ),
       ),
     );
-  }
-
-  _addPost() async {
-    String url = 'http://localhost:5000/register';
-    print(name);
-    Map map = {
-      'name': name,
-      'email': email,
-      'password': password,
-      'password2': password2
-    };
-
-    await apiRequest(url, map).then((authResult) => print(authResult));
-  }
-
-  Future<String> apiRequest(String url, Map jsonMap) async {
-    HttpClient httpClient = new HttpClient();
-    // ignore: close_sinks
-    HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
-    request.headers.set('content-type', 'application/json');
-    request.add(utf8.encode(json.encode(jsonMap)));
-    HttpClientResponse response =
-        await request.close().timeout(Duration(seconds: 10));
-
-    // todo - you should check the response.statusCode
-    String reply = await response.transform(utf8.decoder).join();
-    httpClient.close();
-
-    print(reply);
-    showToast(reply, Colors.yellow);
-    if (reply == 'Sign Up Successful. You can login now.') {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-        return new MaterialApp(
-          theme: ThemeData(
-            scaffoldBackgroundColor: Colors.white,
-            primaryColor: Colors.white,
-          ),
-          home: SignIn(),
-        );
-      }));
-    }
-
-    return reply;
   }
 }

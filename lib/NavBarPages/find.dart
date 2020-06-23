@@ -106,7 +106,10 @@ class _FindPageState extends State<FindPage> {
         title: Text(
           "MoverZfax",
           style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 24, fontFamily: 'nunito'),
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+              fontFamily: 'nunito'),
         ),
       ),
       body: SafeArea(
