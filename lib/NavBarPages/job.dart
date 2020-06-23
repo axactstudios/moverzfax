@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:getflutter/components/appbar/gf_appbar.dart';
 import 'package:moverzfax/Classes/posts.dart';
 import 'package:moverzfax/OtherPages/jobPostForm.dart';
-import 'package:http/http.dart' as http;
 
 class JobPage extends StatefulWidget {
   @override
