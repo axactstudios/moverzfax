@@ -5,6 +5,7 @@ import 'package:getflutter/components/rating/gf_rating.dart';
 import 'package:getflutter/getflutter.dart';
 import 'package:moverzfax/Classes/mover.dart';
 
+// ignore: must_be_immutable
 class MoversListScreen extends StatefulWidget {
   List<Mover> moverList;
   String sourcePage;
