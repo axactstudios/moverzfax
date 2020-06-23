@@ -50,6 +50,8 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class Home extends StatefulWidget {
+  final String userEmail;
+  Home(this.userEmail);
   @override
   _HomeState createState() => _HomeState();
 }
@@ -78,6 +80,6 @@ class _HomeState extends State<Home> {
   }
 
   List<Widget> _buildScreens() {
-    return [HomePage(), FindPage(), OrderPage(), JobPage()];
+    return [HomePage(), FindPage(), OrderPage(), JobPage(widget.userEmail)];
   }
 }

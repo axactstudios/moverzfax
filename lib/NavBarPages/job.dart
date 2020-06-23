@@ -8,31 +8,31 @@ import 'package:moverzfax/Classes/posts.dart';
 import 'package:moverzfax/OtherPages/jobPostForm.dart';
 
 class JobPage extends StatefulWidget {
+  final String userEmail;
+  JobPage(this.userEmail);
   @override
   _JobPageState createState() => _JobPageState();
 }
 
 class _JobPageState extends State<JobPage> {
   FirebaseAuth mAuth = FirebaseAuth.instance;
-  FirebaseUser _user;
-  void getUserDetails() async {
-    FirebaseUser user = await mAuth.currentUser();
-    _user = user;
-    setState(() {
-      _user = user;
-    });
-    fetchData();
-  }
+//  FirebaseUser _user;
 
   String serverResponse = 'Server response';
 
   bool isLoaded = false;
   List<Post> data = new List();
 
-  fetchData() async {
+  fetchData(String userEmail) async {
+//    FirebaseUser user = await mAuth.currentUser();
+//    _user = user;
+//    setState(() {
+//      _user = user;
+//    });
+
     Map map;
     final url = "http://localhost:27017/posts/findMultiple";
-    map = {"userEmail": _user.email};
+    map = {"userEmail": userEmail};
     print(map);
     var response = await apiRequest(url, map);
 
@@ -65,7 +65,8 @@ class _JobPageState extends State<JobPage> {
 
   @override
   void initState() {
-    getUserDetails();
+    fetchData(widget.userEmail);
+
     super.initState();
   }
 
@@ -117,7 +118,7 @@ class _JobPageState extends State<JobPage> {
             padding: const EdgeInsets.all(20.0),
             child: InkWell(
                 onTap: () {
-                  fetchData();
+                  fetchData(widget.userEmail);
                 },
                 child: Container(
                     decoration: BoxDecoration(

@@ -51,6 +51,7 @@ class _SearchState extends State<Search> {
       setState(() {
         items.clear();
         items.addAll(dummyListData);
+        print(items[0]);
       });
       return;
     } else {
@@ -125,7 +126,13 @@ class _SearchState extends State<Search> {
                 shrinkWrap: true,
                 itemCount: items.length,
                 itemBuilder: (context, index) {
-                  print(items.length.toString());
+                  print(items[0]);
+                  Mover temp;
+                  for (int i = 0; i < data.length; i++) {
+                    if (data[i].moverName == items[index]) {
+                      temp = data[i];
+                    }
+                  }
                   return InkWell(
                     onTap: () {},
                     child: Padding(
@@ -151,7 +158,7 @@ class _SearchState extends State<Search> {
                               child: Padding(
                                 padding: const EdgeInsets.fromLTRB(15, 5, 0, 0),
                                 child: Text(
-                                  data[index].moverName,
+                                  temp.moverName,
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontFamily: 'nunito',
@@ -178,7 +185,7 @@ class _SearchState extends State<Search> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Text(
-                                        'PhNo- ${data[index].moverPhno}',
+                                        'PhNo- ${temp.moverPhno}',
                                         softWrap: true,
                                         style: TextStyle(
                                             color: Colors.white,
@@ -187,7 +194,7 @@ class _SearchState extends State<Search> {
                                         overflow: TextOverflow.fade,
                                       ),
                                       Text(
-                                        'Rating- ${data[index].moverRating}',
+                                        'Rating- ${temp.moverRating}',
                                         softWrap: true,
                                         style: TextStyle(
                                             color: Colors.white,
@@ -196,7 +203,7 @@ class _SearchState extends State<Search> {
                                         overflow: TextOverflow.fade,
                                       ),
                                       Text(
-                                        'USDOT No- ${data[index].moverUSDOTNo}',
+                                        'USDOT No- ${temp.moverUSDOTNo}',
                                         softWrap: true,
                                         style: TextStyle(
                                             color: Colors.white,
@@ -205,7 +212,7 @@ class _SearchState extends State<Search> {
                                         overflow: TextOverflow.fade,
                                       ),
                                       Text(
-                                        'MC No- ${data[index].moverMCNo}',
+                                        'MC No- ${temp.moverMCNo}',
                                         softWrap: true,
                                         style: TextStyle(
                                             color: Colors.white,
@@ -217,7 +224,7 @@ class _SearchState extends State<Search> {
                                         height: 30,
                                         width: 230,
                                         child: Text(
-                                          'Description- ${data[index].moverDescription}',
+                                          'Description- ${temp.moverDescription}',
                                           softWrap: true,
                                           style: TextStyle(
                                               color: Colors.white,

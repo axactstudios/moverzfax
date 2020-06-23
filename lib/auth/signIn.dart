@@ -39,7 +39,7 @@ class _SignInState extends State<SignIn> {
             scaffoldBackgroundColor: Colors.white,
             primaryColor: Colors.white,
           ),
-          home: Home(),
+          home: Home(email),
         );
       }));
     }).catchError(
