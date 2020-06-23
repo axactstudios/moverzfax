@@ -12,6 +12,7 @@ class FindPage extends StatefulWidget {
 }
 
 class _FindPageState extends State<FindPage> {
+  // ignore: non_constant_identifier_names
   String zipcode = "", USDOTNo = "", MCNo = "";
   bool saveAttempt = false;
   final listOfCountries = ["USA", "Canada", "Russia"];

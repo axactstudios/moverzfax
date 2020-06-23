@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:getflutter/components/appbar/gf_appbar.dart';
-import 'package:getflutter/components/rating/gf_rating.dart';
 import 'package:getflutter/getflutter.dart';
 import 'package:moverzfax/Classes/mover.dart';
 
