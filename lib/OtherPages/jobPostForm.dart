@@ -44,7 +44,7 @@ class _JobPostFormState extends State<JobPostForm> {
 
   @override
   Widget build(BuildContext context) {
-    print(_user.uid);
+    print(_user.email);
     return Scaffold(
       appBar: GFAppBar(
         backgroundColor: Color(0xFF3871AD),
@@ -267,7 +267,7 @@ class _JobPostFormState extends State<JobPostForm> {
                     TextFormField(
                       onChanged: (textValue) {
                         setState(() {
-                          currAdd = textValue;
+                          destAdd = textValue;
                         });
                       },
                       decoration: InputDecoration(
@@ -460,20 +460,21 @@ class _JobPostFormState extends State<JobPostForm> {
   }
 
   _addPost() async {
-    String url = 'http://localhost:5000/post';
+    String url = 'http://localhost:27017/posts/addSingle';
 
     print(fullName);
     Map map = {
-      'id': _user.uid,
+      'userEmail': _user.email,
       'fullName': fullName,
       'currAdd': currAdd,
-      'currDropdownValue': currDropdownValue,
-      'currDropdownValue1': currDropdownValue1,
-      'currDropdownValue2': currDropdownValue2,
+      'currCountry': currDropdownValue,
+      'currState': currDropdownValue1,
+      'currCity': currDropdownValue2,
       'currZip': currZip,
-      'destDropdownValue': destDropdownValue,
-      'destDropdownValue1': destDropdownValue1,
-      'destDropdownValue2': destDropdownValue2,
+      'destAdd': destAdd,
+      'destCountry': destDropdownValue,
+      'destState': destDropdownValue1,
+      'destCity': destDropdownValue2,
       'destZip': destZip
     };
 

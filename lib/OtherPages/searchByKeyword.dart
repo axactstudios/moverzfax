@@ -138,6 +138,12 @@ class _SearchState extends State<Search> {
                   print(items.length.toString());
                   return InkWell(
                     onTap: () {
+                      Mover temp;
+                      for (int i = 0; i < data.length; i++) {
+                        if (data[i].moverName == items[index]) {
+                          temp = data[i];
+                        }
+                      }
                       scaffoldState.currentState.showBottomSheet((context) {
                         return StatefulBuilder(
                             builder: (BuildContext context, StateSetter state) {
@@ -145,7 +151,7 @@ class _SearchState extends State<Search> {
                               context: context,
                               height: height,
                               width: width,
-                              mover: data[index]);
+                              mover: temp);
                         });
                       });
                     },

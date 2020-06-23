@@ -21,6 +21,7 @@ class _JobPageState extends State<JobPage> {
     setState(() {
       _user = user;
     });
+    fetchData();
   }
 
   String serverResponse = 'Server response';
@@ -30,13 +31,14 @@ class _JobPageState extends State<JobPage> {
 
   fetchData() async {
     Map map;
-    final url = "http://localhost:5000/getData";
-    map = {"id": _user.uid};
+    final url = "http://localhost:27017/posts/findMultiple";
+    map = {"userEmail": _user.email};
     print(map);
     var response = await apiRequest(url, map);
+
     setState(() {
-      print(2);
       data = parsePosts(response);
+      print(data);
       isLoaded = true;
     });
 
@@ -64,15 +66,11 @@ class _JobPageState extends State<JobPage> {
   @override
   void initState() {
     getUserDetails();
-    fetchData();
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    getUserDetails();
-
     return Scaffold(
       appBar: GFAppBar(
         backgroundColor: Color(0xFF3871AD),

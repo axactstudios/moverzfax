@@ -1,4 +1,5 @@
 class Post {
+  final String userEmail;
   final String fullName;
   final String currAdd;
   final String currCountry;
@@ -12,7 +13,8 @@ class Post {
   final String destZip;
 
   Post(
-      {this.fullName,
+      {this.userEmail,
+      this.fullName,
       this.currAdd,
       this.currCountry,
       this.currState,
@@ -26,16 +28,17 @@ class Post {
 
   factory Post.fromJson(Map<String, dynamic> json) {
     return Post(
+      userEmail: json['userEmail'] as String,
       fullName: json['fullName'] as String,
       currAdd: json['currAdd'] as String,
-      currCountry: json['currDropdownValue'] as String,
-      currState: json['currDropdownValue1'] as String,
-      currCity: json['currDropdownValue2'] as String,
+      currCountry: json['currCountry'] as String,
+      currState: json['currState'] as String,
+      currCity: json['currCity'] as String,
       currZip: json['currZip'] as String,
-      destAdd: json['destDropdownValue'] as String,
-      destCountry: json['destDropdownValue1'] as String,
-      destState: json['destDropdownValue2'] as String,
-      destZip: json['moverZipCode'] as String,
+      destAdd: json['destAdd'] as String,
+      destCountry: json['destCountry'] as String,
+      destState: json['destState'] as String,
+      destZip: json['destZip'] as String,
     );
   }
 }

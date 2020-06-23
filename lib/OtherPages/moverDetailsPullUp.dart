@@ -6,6 +6,7 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 // ignore: non_constant_identifier_names
 Widget MoverDetailsPullUp(
     {BuildContext context, double height, double width, Mover mover}) {
+  print(mover.moverName);
   return Container(
     decoration: BoxDecoration(
         boxShadow: [
