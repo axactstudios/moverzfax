@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -29,18 +30,11 @@ class _JobPageState extends State<JobPage> {
   List<Post> data = new List();
 
   fetchData() async {
+    Map map;
     final url = "http://localhost:5000/getData";
-    var res = await http.post(url,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, String>{
-          'id': _user.uid,
-        }));
-    print(1);
-    var response = jsonDecode(res.body).toString();
-    print(2);
-
+    map = {"id": _user.uid};
+    print(map);
+    var response = await apiRequest(url, map);
     setState(() {
       print(2);
       data = parsePosts(response);
@@ -55,6 +49,17 @@ class _JobPageState extends State<JobPage> {
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
 
     return parsed.map<Post>((json) => Post.fromJson(json)).toList();
+  }
+
+  Future<String> apiRequest(String url, Map jsonMap) async {
+    HttpClient httpClient = new HttpClient();
+    HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
+    request.headers.set('content-type', 'application/json');
+    request.add(utf8.encode(json.encode(jsonMap)));
+    HttpClientResponse response = await request.close();
+    String reply = await response.transform(utf8.decoder).join();
+    httpClient.close();
+    return reply;
   }
 
   @override
