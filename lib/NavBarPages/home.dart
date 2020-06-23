@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:getflutter/getflutter.dart';
 import 'package:moverzfax/OtherPages/searchByKeyword.dart';
+import 'package:moverzfax/auth/signIn.dart';
 import 'package:moverzfax/navDrawer.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 

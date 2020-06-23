@@ -33,6 +33,7 @@ dependencies:
   flappy_search_bar: ^1.7.2
   floating_search_bar: ^0.3.0
   firebase_auth: ^0.16.1
+  get: ^2.14.1
 
 
 

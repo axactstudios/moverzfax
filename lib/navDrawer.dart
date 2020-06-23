@@ -1,7 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:getflutter/components/avatar/gf_avatar.dart';
 import 'package:getflutter/components/drawer/gf_drawer.dart';
+import 'package:moverzfax/NavBarPages/home.dart';
+import 'package:moverzfax/auth/signIn.dart';
+import 'package:get/get.dart';
+
+void signOut() async {
+  await FirebaseAuth.instance.signOut();
+  Get.to(SignIn());
+}
 
 Widget retNavDrawer() {
   return GFDrawer(
@@ -144,7 +153,9 @@ Widget retNavDrawer() {
                   fontWeight: FontWeight.w600),
             ),
           ),
-          onTap: null,
+          onTap: () {
+            signOut();
+          },
         ),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 20),
