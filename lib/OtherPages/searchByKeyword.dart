@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:moverzfax/Classes/mover.dart';
-import 'package:moverzfax/OtherPages/moversListScreen.dart';
+import 'package:moverzfax/OtherPages/moverDetailsPullUp.dart';
 
 class SearchByKeyword extends StatelessWidget {
   // This widget is the root of your application.
@@ -26,6 +26,8 @@ class Search extends StatefulWidget {
   @override
   _SearchState createState() => new _SearchState();
 }
+
+double width, height;
 
 class _SearchState extends State<Search> {
   TextEditingController editingController = TextEditingController();
@@ -90,11 +92,15 @@ class _SearchState extends State<Search> {
     duplicateItems = temp;
   }
 
+  final scaffoldState = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     fetchData();
-
+    width = MediaQuery.of(context).size.width;
+    height = MediaQuery.of(context).size.height;
     return new Scaffold(
+      key: scaffoldState,
       appBar: GFAppBar(
         backgroundColor: Color(0xFF3871AD),
         title: Text(
@@ -132,18 +138,16 @@ class _SearchState extends State<Search> {
                   print(items.length.toString());
                   return InkWell(
                     onTap: () {
-                      List<Mover> temp = new List();
-                      for (int i = 0; i < data.length; i++) {
-                        if (data[i].moverName == items[index]) {
-                          temp.add(data[i]);
-                        }
-                      }
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                MoversListScreen(temp, "keywordSearchScreen")),
-                      );
+                      scaffoldState.currentState.showBottomSheet((context) {
+                        return StatefulBuilder(
+                            builder: (BuildContext context, StateSetter state) {
+                          return MoverDetailsPullUp(
+                              context: context,
+                              height: height,
+                              width: width,
+                              mover: data[index]);
+                        });
+                      });
                     },
                     child: ListTile(
                       title: Text(items[index]),

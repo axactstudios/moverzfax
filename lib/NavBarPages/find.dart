@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:getflutter/components/appbar/gf_appbar.dart';
 import 'package:moverzfax/Classes/mover.dart';
@@ -11,8 +12,7 @@ class FindPage extends StatefulWidget {
 }
 
 class _FindPageState extends State<FindPage> {
-  // ignore: non_constant_identifier_names
-  String zipcode, USDOTNo, MCNo;
+  String zipcode = "", USDOTNo = "", MCNo = "";
   bool saveAttempt = false;
   final listOfCountries = ["USA", "Canada", "Russia"];
   final listOfStates = ["New Mexico", "Colorado", "California"];
@@ -25,7 +25,7 @@ class _FindPageState extends State<FindPage> {
   String serverResponse = 'Server response';
 
   bool isLoaded = false;
-  List<Mover> data;
+  List<Mover> data = new List();
 
   fetchData(String apiRoute) async {
     Map map;
@@ -64,6 +64,7 @@ class _FindPageState extends State<FindPage> {
     }
 
     String url = 'http://localhost:27017/movers/$apiRoute';
+    print(map);
     var response = await apiRequest(url, map);
     setState(() {
       data = parseMovers(response);
@@ -317,11 +318,18 @@ class _FindPageState extends State<FindPage> {
                     ),
                     InkWell(
                       onTap: () {
-                        setState(() {
-                          saveAttempt = true;
-                        });
-                        if (formKey.currentState.validate()) {
-                          formKey.currentState.save();
+                        if (zipcode.isEmpty) {
+                          Fluttertoast.showToast(
+                              msg: "Please Enter ZipCode",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.BOTTOM,
+                              timeInSecForIosWeb: 1,
+                              backgroundColor: Color(0xFF3871AD),
+                              textColor: Colors.white,
+                              fontSize: 16.0);
+                        } else {
+                          data = new List();
+                          data.clear();
                           if (USDOTNo.isNotEmpty && MCNo.isNotEmpty) {
                             fetchData("detailedSearchWithBothNo");
                           } else if (USDOTNo.isNotEmpty) {
@@ -330,6 +338,12 @@ class _FindPageState extends State<FindPage> {
                             fetchData("detailedSearchWithoutUSDOT");
                           } else {
                             fetchData("detailedSearch");
+                          }
+                          setState(() {
+                            saveAttempt = true;
+                          });
+                          if (formKey.currentState.validate()) {
+                            formKey.currentState.save();
                           }
                         }
                       },
