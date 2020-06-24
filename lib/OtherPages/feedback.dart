@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:getflutter/components/appbar/gf_appbar.dart';
 
-class MovingTaskForm extends StatefulWidget {
+class FeedbackForm extends StatefulWidget {
   @override
-  _MovingTaskFormState createState() => _MovingTaskFormState();
+  _FeedbackFormState createState() => _FeedbackFormState();
 }
 
-class _MovingTaskFormState extends State<MovingTaskForm> {
+class _FeedbackFormState extends State<FeedbackForm> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   Future<void> send() async {
     final Email email = Email(
       body:
           'Name-$fullName\nPhone-$phone\nAddress-$currAdd, $currDropdownValue2, $currDropdownValue1, $currDropdownValue\nMessage- $msg',
-      subject: "Complaint - $currDropdownValue3",
+      subject: "Feedback",
       recipients: ['axactstudios@gmail.com'],
     );
 
@@ -39,8 +39,6 @@ class _MovingTaskFormState extends State<MovingTaskForm> {
   final listOfCountries = ["USA", "Canada", "Russia"];
   final listOfStates = ["New Mexico", "Colorado", "California"];
   final listOfCities = ["New York", "Los Angeles", "Los Santos"];
-  final listOfComplaints = ["Bura hua", "Bahut Bura hua", "Laude Lag gye"];
-  String currDropdownValue3 = 'Laude Lag gye';
   String currDropdownValue = 'USA';
   String currDropdownValue1 = 'New Mexico';
   String currDropdownValue2 = 'Los Santos';
@@ -71,7 +69,7 @@ class _MovingTaskFormState extends State<MovingTaskForm> {
                 child: Column(
                   children: [
                     Text(
-                      'Just give us some details and hang on.\nWe will get back to you!',
+                      'Your Reviews are valuable to us.',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Color(0xFF3871AD),
@@ -80,39 +78,6 @@ class _MovingTaskFormState extends State<MovingTaskForm> {
                     ),
                     SizedBox(
                       height: 40.0,
-                    ),
-                    DropdownButtonFormField(
-                      value: currDropdownValue3,
-                      icon: Icon(Icons.arrow_downward),
-                      decoration: InputDecoration(
-                        labelText: "Complaint Type",
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0xFF3871AD),
-                          ),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                      ),
-                      items: listOfComplaints.map((String value) {
-                        return new DropdownMenuItem<String>(
-                          value: value,
-                          child: new Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (String newValue) {
-                        setState(() {
-                          currDropdownValue3 = newValue;
-                        });
-                      },
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please Select Complaint type';
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(
-                      height: 20.0,
                     ),
                     TextFormField(
                       onChanged: (textValue) {
