@@ -31,7 +31,8 @@ class _JobPageState extends State<JobPage> {
 //    });
 
     Map map;
-    final url = "http://localhost:27017/posts/findMultiple";
+    final url =
+        "https://whispering-meadow-64251.herokuapp.com/posts/findMultiple";
     map = {"userEmail": userEmail};
     print(map);
     var response = await apiRequest(url, map);

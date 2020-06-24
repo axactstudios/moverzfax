@@ -460,7 +460,8 @@ class _JobPostFormState extends State<JobPostForm> {
   }
 
   _addPost() async {
-    String url = 'http://localhost:27017/posts/addSingle';
+    String url =
+        'https://whispering-meadow-64251.herokuapp.com/posts/addSingle';
 
     print(fullName);
     Map map = {

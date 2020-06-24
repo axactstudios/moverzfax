@@ -78,7 +78,8 @@ class _SearchState extends State<Search> {
 
   fetchData() async {
     if (isLoaded == false) {
-      var response = await http.get('http://localhost:27017/movers/listall');
+      var response = await http
+          .get('https://whispering-meadow-64251.herokuapp.com/movers/listall');
       setState(() {
         data = parseMovers(response.body);
         isLoaded = true;
