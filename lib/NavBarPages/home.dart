@@ -1,8 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:getflutter/getflutter.dart';
+import 'package:moverzfax/OtherPages/movingTaskForce.dart';
 import 'package:moverzfax/OtherPages/searchByKeyword.dart';
-import 'package:moverzfax/auth/signIn.dart';
 import 'package:moverzfax/navDrawer.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
@@ -112,41 +111,50 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
-                  Container(
-                    height: 0.35 * width,
-                    width: 0.35 * width,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            spreadRadius: 3,
-                            blurRadius: 10,
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MovingTaskForm()),
+                      );
+                    },
+                    child: Container(
+                      height: 0.35 * width,
+                      width: 0.35 * width,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              spreadRadius: 3,
+                              blurRadius: 10,
+                            )
+                          ],
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                          border:
+                              Border.all(color: Color(0xFF3871AD), width: 2.5)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Icon(
+                            Icons.security,
+                            size: width * 0.15,
+                            color: Color(0xFF3871AD),
+                          ),
+                          Text(
+                            'Special Moving Task Force',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Color(0xFF3871AD),
+                                fontFamily: 'nunito',
+                                fontWeight: FontWeight.bold,
+                                fontSize: width * 0.045),
                           )
                         ],
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                        border:
-                            Border.all(color: Color(0xFF3871AD), width: 2.5)),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Icon(
-                          Icons.security,
-                          size: width * 0.15,
-                          color: Color(0xFF3871AD),
-                        ),
-                        Text(
-                          'Special Moving Task Force',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Color(0xFF3871AD),
-                              fontFamily: 'nunito',
-                              fontWeight: FontWeight.bold,
-                              fontSize: width * 0.045),
-                        )
-                      ],
+                      ),
                     ),
                   ),
                 ],
