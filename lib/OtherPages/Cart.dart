@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:getflutter/components/appbar/gf_appbar.dart';
 import 'package:moverzfax/Classes/CartItem.dart';
@@ -13,6 +15,8 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
+  String allMoversOrdered = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,7 +122,9 @@ class _CartState extends State<Cart> {
                       side: BorderSide(color: Colors.white),
                     ),
                     color: Colors.white,
-                    onPressed: () {},
+                    onPressed: () {
+                      sendEmail();
+                    },
                     child: Text(
                       'Proceed to pay',
                       style: TextStyle(
@@ -135,5 +141,39 @@ class _CartState extends State<Cart> {
         ],
       ),
     );
+  }
+
+  void sendEmail() async {
+    FirebaseAuth mAuth = FirebaseAuth.instance;
+    FirebaseUser user = await mAuth.currentUser();
+
+    allMoversOrdered = allMoversOrdered + widget.cartList[0].moverName;
+    for (int i = 1; i < widget.cartList.length; i++) {
+      allMoversOrdered =
+          allMoversOrdered + ' , ' + widget.cartList[i].moverName;
+    }
+
+    allMoversOrdered = allMoversOrdered.substring(0, allMoversOrdered.length);
+
+    final Email email = Email(
+      body:
+          'A client just placed an order using your app. \n Order details are as follows. \n User\'s email : ${user.email} \n Name of the movers : ${allMoversOrdered}\n Order amount : \$ ${widget.cartList.length * 5}\n',
+      subject: 'New order',
+      recipients: ['axactstudios@gmail.com'],
+    );
+
+    String platformResponse;
+
+    try {
+      await FlutterEmailSender.send(email);
+      platformResponse = 'success';
+    } catch (error) {
+      platformResponse = error.toString();
+    }
+
+    if (!mounted) return;
+    print(platformResponse);
+    Fluttertoast.showToast(
+        msg: platformResponse, toastLength: Toast.LENGTH_SHORT);
   }
 }
