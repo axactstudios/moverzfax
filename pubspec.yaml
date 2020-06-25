@@ -35,6 +35,8 @@ dependencies:
   firebase_auth: ^0.16.1
   get: ^2.14.1
   firebase_database: ^3.1.6
+  flutter_email_sender: ^3.0.1
+
 
 
 

@@ -3,7 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:getflutter/components/avatar/gf_avatar.dart';
 import 'package:getflutter/components/drawer/gf_drawer.dart';
-import 'package:moverzfax/NavBarPages/home.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
+import 'package:moverzfax/OtherPages/feedback.dart';
 import 'package:moverzfax/auth/signIn.dart';
 import 'package:get/get.dart';
 
@@ -99,7 +100,10 @@ Widget retNavDrawer() {
                   fontWeight: FontWeight.w600),
             ),
           ),
-          onTap: null,
+          onTap: () {
+            UrlLauncher.launch(
+                "https://www.youtube.com/playlist?list=PLKe-Zuux9p9vWWUVGyY5SPMO6MpRDjZ5x");
+          },
         ),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 20),
@@ -117,7 +121,10 @@ Widget retNavDrawer() {
                   fontWeight: FontWeight.w600),
             ),
           ),
-          onTap: null,
+          onTap: () {
+            UrlLauncher.launch(
+                "https://www.youtube.com/playlist?list=PLKe-Zuux9p9vWWUVGyY5SPMO6MpRDjZ5x");
+          },
         ),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 20),
@@ -135,7 +142,9 @@ Widget retNavDrawer() {
                   fontWeight: FontWeight.w600),
             ),
           ),
-          onTap: null,
+          onTap: () {
+            Get.to(FeedbackForm());
+          },
         ),
         Container(
           margin: EdgeInsets.symmetric(horizontal: 20),

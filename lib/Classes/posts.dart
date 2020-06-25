@@ -38,6 +38,7 @@ class Post {
       destAdd: json['destAdd'] as String,
       destCountry: json['destCountry'] as String,
       destState: json['destState'] as String,
+      destCity: json['destCity'] as String,
       destZip: json['destZip'] as String,
     );
   }

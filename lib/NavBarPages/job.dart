@@ -39,7 +39,7 @@ class _JobPageState extends State<JobPage> {
 
     setState(() {
       data = parsePosts(response);
-      print(data);
+      print('Data length is ${data.length}');
       isLoaded = true;
     });
 
@@ -71,8 +71,12 @@ class _JobPageState extends State<JobPage> {
     super.initState();
   }
 
+  double width;
+
   @override
   Widget build(BuildContext context) {
+    width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: GFAppBar(
         backgroundColor: Color(0xFF3871AD),
@@ -115,29 +119,17 @@ class _JobPageState extends State<JobPage> {
                       ),
                     ))),
           ),
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: InkWell(
-                onTap: () {
-                  fetchData(widget.userEmail);
-                },
-                child: Container(
-                    decoration: BoxDecoration(
-                        color: Color(0xFF24408F),
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Center(
-                        child: Text(
-                          'Load',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 18,
-                              fontFamily: 'nunito'),
-                        ),
-                      ),
-                    ))),
+          Expanded(
+            child: data.length != null
+                ? ListView.builder(
+                    itemCount: data.length,
+                    itemBuilder: (context, index) {
+                      print('No of objects is ${data.length}');
+                      return _getJobCard(data[index], width);
+                    })
+                : CircularProgressIndicator(
+                    backgroundColor: Colors.blue,
+                  ),
           )
         ],
       ),
@@ -145,136 +137,128 @@ class _JobPageState extends State<JobPage> {
   }
 }
 
-List<Widget> getPostCards(List<Post> postsList) {
-  List<Widget> temp = new List();
-  for (int i = 0; i < postsList.length; i++) {
-    temp.add(Padding(
-      padding: const EdgeInsets.fromLTRB(30, 15, 30, 15),
-      child: Container(
-        height: 218,
-        decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                spreadRadius: 3,
-                blurRadius: 10,
-              )
-            ],
-            color: Color(0xFF24408F),
-            borderRadius: BorderRadius.all(Radius.circular(15))),
-        child: Column(
+Widget _getJobCard(Post jobPosted, double width) {
+  return Container(
+    margin: EdgeInsets.all(15),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.all(Radius.circular(15)),
+      color: Color(0xFF3871AD).withOpacity(0.9),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.fromLTRB(15.0, 15, 0, 5),
+          child: Text(
+            jobPosted.fullName,
+            textAlign: TextAlign.start,
+            style: TextStyle(
+                color: Color(0xFFFFE600),
+                fontFamily: 'nunito',
+                fontSize: 24,
+                fontWeight: FontWeight.bold),
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
-              height: 45,
               alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(15, 5, 0, 0),
-                child: Text(
-                  postsList[i].fullName,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'nunito',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 24),
-                  overflow: TextOverflow.fade,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 120,
-              child: Row(
+              width: (width - 60) / 2,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      radius: 44,
+                    padding: const EdgeInsets.fromLTRB(15.0, 5, 15, 0),
+                    child: Text(
+                      jobPosted.currAdd,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontFamily: 'nunito',
+                      ),
                     ),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        'PhNo- ${postsList[i].currAdd}',
-                        softWrap: true,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'nunito',
-                            fontSize: 14),
-                        overflow: TextOverflow.fade,
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15.0, 0, 15, 0),
+                    child: Text(
+                      ' ${jobPosted.currCity} , ${jobPosted.currState} , ${jobPosted.currCountry}',
+                      textAlign: TextAlign.center,
+                      softWrap: true,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontFamily: 'nunito',
                       ),
-                      Text(
-                        'Rating- ${postsList[i].currCity}',
-                        softWrap: true,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'nunito',
-                            fontSize: 14),
-                        overflow: TextOverflow.fade,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15.0, 0, 15, 15),
+                    child: Text(
+                      jobPosted.currZip,
+                      softWrap: true,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontFamily: 'nunito',
                       ),
-                      Text(
-                        'USDOT No- ${postsList[i].destAdd}',
-                        softWrap: true,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'nunito',
-                            fontSize: 14),
-                        overflow: TextOverflow.fade,
-                      ),
-                      Text(
-                        'MC No- ${postsList[i].destCity}',
-                        softWrap: true,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'nunito',
-                            fontSize: 14),
-                        overflow: TextOverflow.fade,
-                      ),
-                      SizedBox(
-                        height: 30,
-                        width: 230,
-                        child: Text(
-                          'Description- ${postsList[i].destZip}',
-                          softWrap: true,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'nunito',
-                              fontSize: 14),
-                          overflow: TextOverflow.fade,
-                        ),
-                      ),
-                    ],
-                  )
+                    ),
+                  ),
                 ],
               ),
             ),
+            Icon(
+              Icons.arrow_forward,
+              size: 24,
+              color: Colors.white,
+            ),
             Container(
-              height: 50,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(15),
-                  bottomRight: Radius.circular(15),
-                ),
-                color: Color(0xFF424242),
+              width: (width - 60) / 2,
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15.0, 5, 15, 0),
+                    child: Text(
+                      jobPosted.destAdd,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontFamily: 'nunito',
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15.0, 0, 15, 0),
+                    child: Text(
+                      '${jobPosted.destCity} , ${jobPosted.destState} , ${jobPosted.destCountry}',
+                      textAlign: TextAlign.center,
+                      softWrap: true,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontFamily: 'nunito',
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15.0, 0, 15, 15),
+                    child: Text(
+                      jobPosted.destZip,
+                      softWrap: true,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontFamily: 'nunito',
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              child: Center(
-                child: Text(
-                  'Order A report',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'nunito',
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-            )
+            ),
           ],
-        ),
-      ),
-    ));
-  }
-
-  return temp;
+        )
+      ],
+    ),
+  );
 }

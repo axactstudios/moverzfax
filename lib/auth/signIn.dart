@@ -124,7 +124,7 @@ class _SignInState extends State<SignIn> {
               child: Column(
                 children: [
                   Text(
-                    'Sign Up',
+                    'Sign In',
                     style: TextStyle(
                         color: Color(0xFF3871AD),
                         fontSize: 35,
@@ -255,7 +255,7 @@ class _SignInState extends State<SignIn> {
                           color: Color(0xFF3871AD),
                           borderRadius: BorderRadius.circular(15.0)),
                       child: Text(
-                        'Sign In',
+                        'Sign Up',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18.0,
