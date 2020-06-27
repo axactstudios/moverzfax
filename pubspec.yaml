@@ -65,6 +65,7 @@ flutter:
     - assets/loading.gif
     - assets/Banner2.png
     - assets/Banner 1.png
+    - assets/Splash Screen.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
