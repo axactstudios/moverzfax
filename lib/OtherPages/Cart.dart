@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +17,12 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
-  String allMoversOrdered = '';
+  String allMoversOrdered;
+
+  @override
+  void initState() {
+    allMoversOrdered = '';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -124,6 +131,7 @@ class _CartState extends State<Cart> {
                     color: Colors.white,
                     onPressed: () {
                       sendEmail();
+                      addOrders();
                     },
                     child: Text(
                       'Proceed to pay',
@@ -157,7 +165,7 @@ class _CartState extends State<Cart> {
 
     final Email email = Email(
       body:
-          'A client just placed an order using your app. \n Order details are as follows. \n User\'s email : ${user.email} \n Name of the movers : ${allMoversOrdered}\n Order amount : \$ ${widget.cartList.length * 5}\n',
+      'A client just placed an order using your app. \n Order details are as follows. \n User\'s email : ${user.email} \n Name of the movers : ${allMoversOrdered}\n Order amount : \$ ${widget.cartList.length * 5}\n',
       subject: 'New order',
       recipients: ['axactstudios@gmail.com'],
     );
@@ -175,5 +183,38 @@ class _CartState extends State<Cart> {
     print(platformResponse);
     Fluttertoast.showToast(
         msg: platformResponse, toastLength: Toast.LENGTH_SHORT);
+  }
+
+  void addOrders() async {
+    String url = 'https://rocky-refuge-65574.herokuapp.com/api/orders/addOrder';
+
+    FirebaseAuth mAuth = FirebaseAuth.instance;
+    FirebaseUser user = await mAuth.currentUser();
+    print(user.email);
+
+    Map map = {
+      'moversName': allMoversOrdered,
+      'orderAmount': widget.cartList.length * 5,
+      'email': user.email
+    };
+
+    await apiRequest(url, map).then((authResult) => print(authResult));
+  }
+
+  Future<String> apiRequest(String url, Map jsonMap) async {
+    HttpClient httpClient = new HttpClient();
+    // ignore: close_sinks
+    HttpClientRequest request = await httpClient.postUrl(Uri.parse(url));
+    request.headers.set('content-type', 'application/json');
+    request.add(utf8.encode(json.encode(jsonMap)));
+    HttpClientResponse response =
+    await request.close().timeout(Duration(seconds: 10));
+
+    // todo - you should check the response.statusCode
+    String reply = await response.transform(utf8.decoder).join();
+    httpClient.close();
+
+    print(reply);
+    Fluttertoast.showToast(msg: reply, toastLength: Toast.LENGTH_SHORT);
   }
 }
