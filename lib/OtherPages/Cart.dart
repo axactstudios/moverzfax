@@ -165,7 +165,7 @@ class _CartState extends State<Cart> {
 
     final Email email = Email(
       body:
-      'A client just placed an order using your app. \n Order details are as follows. \n User\'s email : ${user.email} \n Name of the movers : ${allMoversOrdered}\n Order amount : \$ ${widget.cartList.length * 5}\n',
+          'A client just placed an order using your app. \n Order details are as follows. \n User\'s email : ${user.email} \n Name of the movers : ${allMoversOrdered}\n Order amount : \$ ${widget.cartList.length * 5}\n',
       subject: 'New order',
       recipients: ['axactstudios@gmail.com'],
     );
@@ -208,7 +208,7 @@ class _CartState extends State<Cart> {
     request.headers.set('content-type', 'application/json');
     request.add(utf8.encode(json.encode(jsonMap)));
     HttpClientResponse response =
-    await request.close().timeout(Duration(seconds: 10));
+        await request.close().timeout(Duration(seconds: 10));
 
     // todo - you should check the response.statusCode
     String reply = await response.transform(utf8.decoder).join();
