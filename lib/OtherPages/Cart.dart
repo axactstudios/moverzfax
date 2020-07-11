@@ -174,7 +174,7 @@ class _CartState extends State<Cart> {
                         print(mAuth.currentUser());
                         sendEmail();
                         addOrders();
-                      }
+                      }//gfgfgfgfg
                     },
                     child: Text(
                       'Proceed to pay',
