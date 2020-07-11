@@ -20,7 +20,7 @@ class _FirstScreenState extends State<FirstScreen> {
       if (user != null) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => Home(user.email)),
+          MaterialPageRoute(builder: (context) => Home(userEmail: user.email)),
         );
       } else {
         Navigator.pushReplacement(

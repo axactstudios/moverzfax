@@ -108,6 +108,7 @@ class _MoversListScreenState extends State<MoversListScreen> {
                 itemBuilder: (context, index) {
                   var item = widget.moverList[index];
                   return Container(
+                    margin: EdgeInsets.symmetric(vertical: 5),
                     height: 218,
                     decoration: BoxDecoration(
                         boxShadow: [

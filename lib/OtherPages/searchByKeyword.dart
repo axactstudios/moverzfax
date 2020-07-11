@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:moverzfax/Classes/mover.dart';
 import 'package:moverzfax/OtherPages/moverDetailsPullUp.dart';
+import 'package:moverzfax/main.dart';
 
 class SearchByKeyword extends StatelessWidget {
   // This widget is the root of your application.
@@ -112,6 +113,13 @@ class _SearchState extends State<Search> {
             fontFamily: 'nunito',
           ),
         ),
+//        leading: IconButton(
+//          icon: Icon(Icons.arrow_back_ios),
+//          onPressed: () {
+//            Navigator.push(
+//                context, MaterialPageRoute(builder: (context) => Home()));
+//          },
+//        ),
       ),
       body: Container(
         child: Column(

@@ -39,7 +39,7 @@ class _SignInState extends State<SignIn> {
             scaffoldBackgroundColor: Colors.white,
             primaryColor: Colors.white,
           ),
-          home: Home(email),
+          home: Home(userEmail: email),
         );
       }));
     }).catchError(
@@ -264,6 +264,21 @@ class _SignInState extends State<SignIn> {
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => Home()),
+                      );
+                    },
+                    child: Text(
+                      'Skip this page',
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                  )
                 ],
               ),
             ),

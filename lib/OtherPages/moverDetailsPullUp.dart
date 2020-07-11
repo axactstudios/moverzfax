@@ -33,14 +33,22 @@ Widget MoverDetailsPullUp(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                mover.moverName,
-                style: TextStyle(
-                    color: Color(0xFF3871AD),
-                    fontFamily: 'nunito',
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
+              Container(
+                alignment: Alignment.centerLeft,
+                width: width * 0.6,
+                height: 30,
+                child: FittedBox(
+                  child: Text(
+                    mover.moverName,
+                    style: TextStyle(
+                        color: Color(0xFF3871AD),
+                        fontFamily: 'nunito',
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.fade,
+                  ),
+                ),
               ),
               IconButton(
                 icon: Icon(
@@ -63,19 +71,19 @@ Widget MoverDetailsPullUp(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Container(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(5)),
-                        child: Image.network(
-                          'https://picsum.photos/200/300?grayscale',
-                          alignment: Alignment.center,
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
+//                    Container(
+//                      child: ClipRRect(
+//                        borderRadius: BorderRadius.all(Radius.circular(5)),
+//                        child: Image.network(
+//                          'https://picsum.photos/200/300?grayscale',
+//                          alignment: Alignment.center,
+//                          fit: BoxFit.fill,
+//                        ),
+//                      ),
+//                    ),
+//                    SizedBox(
+//                      height: 15,
+//                    ),
                     Text(
                       'Rating- ${mover.moverRating}',
                       style: TextStyle(
@@ -168,30 +176,6 @@ Widget MoverDetailsPullUp(
                     ),
                     SizedBox(
                       height: 30,
-                    ),
-                    InkWell(
-                      onTap: null,
-                      child: Card(
-                        color: Color(0xFF3871AD),
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10))),
-                        child: Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Text(
-                            'Add to wishlist',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'nunito',
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
                     ),
                   ],
                 ),

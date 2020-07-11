@@ -52,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 class Home extends StatefulWidget {
   final String userEmail;
-  Home(this.userEmail);
+  Home({this.userEmail});
   @override
   _HomeState createState() => _HomeState();
 }
