@@ -141,8 +141,9 @@ class _CartState extends State<Cart> {
                       side: BorderSide(color: Colors.white),
                     ),
                     color: Colors.white,
-                    onPressed: () {
-                      if (mAuth.currentUser() == null) {
+                    onPressed: () async{
+                      var user= await mAuth.currentUser();
+                      if (user == null) {
                         print('Hihihihihihihi');
                         showDialog(
                             context: context,
@@ -174,7 +175,7 @@ class _CartState extends State<Cart> {
                         print(mAuth.currentUser());
                         sendEmail();
                         addOrders();
-                      }//gfgfgfgfg
+                      } //gfgfgfgfg
                     },
                     child: Text(
                       'Proceed to pay',
