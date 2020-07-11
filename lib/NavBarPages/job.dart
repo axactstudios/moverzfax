@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:getflutter/components/appbar/gf_appbar.dart';
 import 'package:moverzfax/Classes/posts.dart';
 import 'package:moverzfax/OtherPages/jobPostForm.dart';
+import 'package:moverzfax/auth/signIn.dart';
 
 class JobPage extends StatefulWidget {
   final String userEmail;
@@ -95,11 +96,43 @@ class _JobPageState extends State<JobPage> {
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => JobPostForm()),
-                  );
+                onTap: () async {
+                  var user = await mAuth.currentUser();
+                  if (user == null) {
+                    print('Hihihihihihihi');
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Login"),
+                            content:
+                                Text("To post a job you must be logged in."),
+                            actions: [
+                              FlatButton(
+                                child: Text("Cancel"),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              FlatButton(
+                                child: Text("Login"),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => SignIn()));
+                                },
+                              )
+                            ],
+                          );
+                        });
+                  } else {
+                    print(mAuth.currentUser());
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => JobPostForm()),
+                    );
+                  } //gfgfgfgfg
                 },
                 child: Container(
                     decoration: BoxDecoration(
