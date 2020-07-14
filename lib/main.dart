@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:moverzfax/OtherPages/SplashScreen.dart';
-import 'package:moverzfax/auth/signUp.dart';
 import 'package:persistent_bottom_nav_bar/models/persistent-bottom-nav-bar-styles.widget.dart';
 import 'package:persistent_bottom_nav_bar/models/persistent-nav-bar-scaffold.widget.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.widget.dart';
